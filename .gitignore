@@ -1,0 +1,20 @@
+# Backend (Java/Maven)
+backend/target/
+backend/banco/
+*.class
+
+# Frontend (Node/Next.js)
+frontend/node_modules/
+frontend/.next/
+frontend/pnpm-lock.yaml
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+.env
