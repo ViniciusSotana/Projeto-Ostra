@@ -13,6 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, ArrowLeft, Pencil, Trash2, Search, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { getToken } from "@/lib/auth"
+import { API_URL } from "@/lib/api"
 
 interface Cliente {
   id: string
@@ -43,7 +44,7 @@ export default function ClientesPage() {
   const fetchClientes = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch("http://localhost:8080/clients", {
+      const response = await fetch(`${API_URL}/clients`, {
         headers: { "Authorization": `Bearer ${getToken()}` }
       })
       if (response.ok) {
@@ -98,8 +99,8 @@ export default function ClientesPage() {
     try {
       const isEditing = !!editingCliente
       const url = isEditing 
-        ? `http://localhost:8080/clients/${editingCliente.id}` 
-        : "http://localhost:8080/clients"
+        ? `${API_URL}/clients/${editingCliente.id}` 
+        : `${API_URL}/clients`
       const method = isEditing ? "PUT" : "POST"
 
       const payload = {

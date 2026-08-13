@@ -14,6 +14,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft, Plus, Pencil, Trash2, Search, Loader2, DollarSign } from "lucide-react"
 import { getToken } from "@/lib/auth"
+import { API_URL } from "@/lib/api"
 
 interface Vendedora {
   id: string
@@ -51,7 +52,7 @@ export default function VendedorasPage() {
   const fetchVendedoras = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch("http://localhost:8080/sellers", {
+      const response = await fetch(`${API_URL}/sellers`, {
         headers: {
           "Authorization": `Bearer ${getToken()}`
         }
@@ -115,8 +116,8 @@ export default function VendedorasPage() {
       const isEditing = !!editingVendedora
       const method = isEditing ? "PUT" : "POST"
       const url = isEditing 
-        ? `http://localhost:8080/sellers/${editingVendedora.id}` 
-        : "http://localhost:8080/sellers"
+        ? `${API_URL}/sellers/${editingVendedora.id}` 
+        : `${API_URL}/sellers`
 
       const payload = {
         name: formData.nome,
@@ -153,7 +154,7 @@ export default function VendedorasPage() {
     if (!confirm("Tem certeza que deseja inativar (excluir) esta vendedora?")) return
 
     try {
-      const response = await fetch(`http://localhost:8080/sellers/${id}`, {
+      const response = await fetch(`${API_URL}/sellers/${id}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${getToken()}`
@@ -187,7 +188,7 @@ export default function VendedorasPage() {
     setIsSaving(true)
 
     try {
-      const response = await fetch(`http://localhost:8080/sellers/${paymentVendedora.id}/pay`, {
+      const response = await fetch(`${API_URL}/sellers/${paymentVendedora.id}/pay`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${getToken()}`

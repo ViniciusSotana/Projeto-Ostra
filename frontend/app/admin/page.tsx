@@ -13,6 +13,7 @@ import {
   ShoppingCart, TrendingUp, FileText, DollarSign, Wallet, Banknote, 
   Activity, Gem, Loader2 
 } from "lucide-react"
+import { API_URL } from "@/lib/api"
 
 // Interface dos dados dinâmicos do Back-end
 interface DashboardData {
@@ -39,7 +40,7 @@ export default function AdminPage() {
     const fetchDashboardData = async () => {
       setIsLoading(true)
       try {
-        const response = await fetch("http://localhost:8080/dashboard", {
+        const response = await fetch(`${API_URL}/dashboard`, {
           headers: {
             "Authorization": `Bearer ${getToken()}`
           }
@@ -71,12 +72,12 @@ export default function AdminPage() {
 
   const handleGenerateReport = async (type: string) => {
     const endpoints: Record<string, string> = {
-      "Ranking de Vendedoras": "http://localhost:8080/reports/sellers/ranking",
-      "Top Clientes": "http://localhost:8080/reports/clients/top",
-      "Auditoria de Maletas": "http://localhost:8080/reports/cases/audit",
-      "Performance das Coleções": "http://localhost:8080/reports/collections/performance",
-      "Histórico de Vendas Mensal": "http://localhost:8080/reports/sales/monthly",
-      "Top Joias": "http://localhost:8080/reports/jewelries/top"
+      "Ranking de Vendedoras": `${API_URL}/reports/sellers/ranking`,
+      "Top Clientes": `${API_URL}/reports/clients/top`,
+      "Auditoria de Maletas": `${API_URL}/reports/cases/audit`,
+      "Performance das Coleções": `${API_URL}/reports/collections/performance`,
+      "Histórico de Vendas Mensal": `${API_URL}/reports/sales/monthly`,
+      "Top Joias": `${API_URL}/reports/jewelries/top`
     }
 
     const url = endpoints[type]

@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { getToken } from "@/lib/auth"
 import * as XLSX from "xlsx" // <-- Importação da biblioteca Excel
+import { API_URL } from "@/lib/api"
 
 interface SaleItemResponse {
   jewelryId: string
@@ -85,11 +86,11 @@ export default function VendasPage() {
       const headers = { "Authorization": `Bearer ${getToken()}` }
       
       const [vendasRes, clientesRes, vendedorasRes, joiasRes, maletasRes] = await Promise.all([
-        fetch("http://localhost:8080/sales", { headers }),
-        fetch("http://localhost:8080/clients", { headers }),
-        fetch("http://localhost:8080/sellers", { headers }),
-        fetch("http://localhost:8080/jewelries", { headers }),
-        fetch("http://localhost:8080/jewelry-cases", { headers }) 
+        fetch(`${API_URL}/sales`, { headers }),
+        fetch(`${API_URL}/clients`, { headers }),
+        fetch(`${API_URL}/sellers`, { headers }),
+        fetch(`${API_URL}/jewelries`, { headers }),
+        fetch(`${API_URL}/jewelry-cases`, { headers })
       ])
 
       if (vendasRes.ok) setVendas(await vendasRes.json())
@@ -210,7 +211,7 @@ export default function VendasPage() {
         }))
       }
 
-      const response = await fetch("http://localhost:8080/sales", {
+      const response = await fetch(`${API_URL}/sales`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` },
         body: JSON.stringify(payload)
@@ -235,7 +236,7 @@ export default function VendasPage() {
     if (!confirm("Atenção! Deseja cancelar esta venda? O faturamento será desfeito e as joias voltarão para o estoque.")) return
 
     try {
-      const response = await fetch(`http://localhost:8080/sales/${id}`, {
+      const response = await fetch(`${API_URL}/sales/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${getToken()}` }
       })

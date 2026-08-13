@@ -13,6 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, ArrowLeft, Pencil, Trash2, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { getToken } from "@/lib/auth"
+import { API_URL } from "@/lib/api"
 
 interface Colecao {
   id: string
@@ -37,7 +38,7 @@ export default function ColecoesPage() {
   const fetchColecoes = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch("http://localhost:8080/collections", {
+      const response = await fetch(`${API_URL}/collections`, {
         headers: {
           "Authorization": `Bearer ${getToken()}`
         }
@@ -86,8 +87,8 @@ export default function ColecoesPage() {
       const isEditing = !!editingColecao
       const method = isEditing ? "PUT" : "POST"
       const url = isEditing 
-        ? `http://localhost:8080/collections/${editingColecao.id}` 
-        : "http://localhost:8080/collections"
+        ? `${API_URL}/collections/${editingColecao.id}` 
+        : `${API_URL}/collections`
 
       const payload = {
         name: formData.nome,

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { useState, useEffect } from "react"
 import { ArrowLeft, Loader2, Tag } from "lucide-react"
 import Link from "next/link"
+import { API_URL } from "@/lib/api"
 
 interface Joia {
   id: string
@@ -42,8 +43,8 @@ export default function ColecoesPage() {
       setIsLoading(true)
       try {
         const [colResponse, joiResponse] = await Promise.all([
-          fetch("http://localhost:8080/collections"),
-          fetch("http://localhost:8080/jewelries")
+          fetch(`${API_URL}/collections`),
+          fetch(`${API_URL}/jewelries`)
         ])
 
         if (colResponse.ok && joiResponse.ok) {

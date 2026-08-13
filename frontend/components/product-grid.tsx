@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState, useEffect } from "react"
 import { Loader2, Tag } from "lucide-react"
+import { API_URL } from "@/lib/api"
 
 interface Jewelry {
   id: string
@@ -57,8 +58,8 @@ export function ProductGrid({ showFilters = true }: ProductGridProps) {
     const fetchMetadata = async () => {
       try {
         const [typesRes, colRes] = await Promise.all([
-          fetch("http://localhost:8080/jewelry-types"),
-          fetch("http://localhost:8080/collections")
+          fetch(`${API_URL}/jewelry-types`),
+          fetch(`${API_URL}/collections`)
         ])
         
         if (typesRes.ok) setTypes(await typesRes.json())
@@ -74,7 +75,7 @@ export function ProductGrid({ showFilters = true }: ProductGridProps) {
     const fetchProducts = async () => {
       setIsFiltering(true)
       try {
-        let url = new URL("http://localhost:8080/jewelries")
+        let url = new URL(`${API_URL}/jewelries`)
         if (selectedType !== "all") url.searchParams.append("typeId", selectedType)
         if (selectedCollection !== "all") url.searchParams.append("collectionId", selectedCollection)
         if (isPromoOnly) url.searchParams.append("isPromo", "true")

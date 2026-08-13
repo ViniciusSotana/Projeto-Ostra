@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus, ArrowLeft, Pencil, Trash2, Search, Loader2, Image as ImageIcon, Tag } from "lucide-react"
 import Link from "next/link"
 import { getToken } from "@/lib/auth"
+import { API_URL } from "@/lib/api"
 
 interface Joia {
   id: string
@@ -67,9 +68,9 @@ export default function JoiasPage() {
       const headers = { "Authorization": `Bearer ${getToken()}` }
       
       const [joiasRes, tiposRes, colecoesRes] = await Promise.all([
-        fetch("http://localhost:8080/jewelries", { headers }),
-        fetch("http://localhost:8080/jewelry-types", { headers }),
-        fetch("http://localhost:8080/collections", { headers })
+        fetch(`${API_URL}/jewelries`, { headers }),
+        fetch(`${API_URL}/jewelry-types`, { headers }),
+        fetch(`${API_URL}/collections`, { headers })
       ])
 
       if (joiasRes.ok) setJoias(await joiasRes.json())
@@ -120,8 +121,8 @@ export default function JoiasPage() {
     try {
       const isEditing = !!editingJoia
       const url = isEditing 
-        ? `http://localhost:8080/jewelries/${editingJoia.id}` 
-        : "http://localhost:8080/jewelries"
+        ? `${API_URL}/jewelries/${editingJoia.id}` 
+        : `${API_URL}/jewelries`
       const method = isEditing ? "PUT" : "POST"
 
       const basePrice = parseFloat(formData.price)
@@ -218,7 +219,7 @@ export default function JoiasPage() {
     payload.append("data", new Blob([JSON.stringify(requestDTO)], { type: "application/json" }))
 
     try {
-      const response = await fetch(`http://localhost:8080/jewelries/${currentPromocaoJoia.id}`, {
+      const response = await fetch(`${API_URL}/jewelries/${currentPromocaoJoia.id}`, {
         method: "PUT",
         headers: { "Authorization": `Bearer ${getToken()}` },
         body: payload
@@ -256,7 +257,7 @@ export default function JoiasPage() {
     payload.append("data", new Blob([JSON.stringify(requestDTO)], { type: "application/json" }))
 
     try {
-      const response = await fetch(`http://localhost:8080/jewelries/${joia.id}`, {
+      const response = await fetch(`${API_URL}/jewelries/${joia.id}`, {
         method: "PUT",
         headers: { "Authorization": `Bearer ${getToken()}` },
         body: payload
@@ -275,7 +276,7 @@ export default function JoiasPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("Tem certeza que deseja excluir esta joia?")) return
     try {
-      const response = await fetch(`http://localhost:8080/jewelries/${id}`, {
+      const response = await fetch(`${API_URL}/jewelries/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${getToken()}` }
       })

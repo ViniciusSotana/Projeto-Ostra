@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus, ArrowLeft, Pencil, Trash2, UserPlus, Package, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { getToken } from "@/lib/auth"
+import { API_URL } from "@/lib/api"
 
 interface JoiaNaMaleta {
   jewelryId: string
@@ -63,9 +64,9 @@ export default function MaletasPage() {
       const headers = { "Authorization": `Bearer ${getToken()}` }
       
       const [maletasRes, vendedorasRes, joiasRes] = await Promise.all([
-        fetch("http://localhost:8080/jewelry-cases", { headers }),
-        fetch("http://localhost:8080/sellers", { headers }),
-        fetch("http://localhost:8080/jewelries", { headers })
+        fetch(`${API_URL}/jewelry-cases`, { headers }),
+        fetch(`${API_URL}/sellers`, { headers }),
+        fetch(`${API_URL}/jewelries`, { headers })
       ])
 
       if (maletasRes.ok) setMaletas(await maletasRes.json())
@@ -117,7 +118,7 @@ export default function MaletasPage() {
     setIsSaving(true)
     try {
       const isEditing = !!editingMaleta
-      const url = isEditing ? `http://localhost:8080/jewelry-cases/${editingMaleta.id}` : "http://localhost:8080/jewelry-cases"
+      const url = isEditing ? `${API_URL}/jewelry-cases/${editingMaleta.id}` : `${API_URL}/jewelry-cases`
       const method = isEditing ? "PUT" : "POST"
 
       const itemsPayload = isEditing && editingMaleta
@@ -153,7 +154,7 @@ export default function MaletasPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("Tem certeza que deseja excluir esta maleta?")) return
     try {
-      const response = await fetch(`http://localhost:8080/jewelry-cases/${id}`, {
+      const response = await fetch(`${API_URL}/jewelry-cases/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${getToken()}` }
       })
@@ -180,7 +181,7 @@ export default function MaletasPage() {
         items: maletaToAtribuir.items.map(i => ({ jewelryId: i.jewelryId, quantity: i.quantity }))
       }
 
-      const response = await fetch(`http://localhost:8080/jewelry-cases/${maletaToAtribuir.id}`, {
+      const response = await fetch(`${API_URL}/jewelry-cases/${maletaToAtribuir.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` },
         body: JSON.stringify(payload)
@@ -227,7 +228,7 @@ export default function MaletasPage() {
         items: currentItems
       }
 
-      const response = await fetch(`http://localhost:8080/jewelry-cases/${maletaJoias.id}`, {
+      const response = await fetch(`${API_URL}/jewelry-cases/${maletaJoias.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` },
         body: JSON.stringify(payload)
@@ -263,7 +264,7 @@ export default function MaletasPage() {
         items: currentItems
       }
 
-      const response = await fetch(`http://localhost:8080/jewelry-cases/${maletaJoias.id}`, {
+      const response = await fetch(`${API_URL}/jewelry-cases/${maletaJoias.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` },
         body: JSON.stringify(payload)
