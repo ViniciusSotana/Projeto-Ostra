@@ -23,7 +23,7 @@ O Projeto Ostra nasceu da necessidade de digitalizar o controle de estoque e ven
 **Backend**
 - Java 17
 - Spring Boot 3.3.1 (Web, Security, Data JPA)
-- Banco de dados H2 (modo arquivo)
+- PostgreSQL 16 em contêiner próprio (H2 em modo arquivo apenas como padrão ao rodar fora do Docker)
 - Cloudinary (armazenamento de imagens)
 - Maven
 
@@ -32,7 +32,7 @@ O Projeto Ostra nasceu da necessidade de digitalizar o controle de estoque e ven
 - TypeScript
 
 **Infraestrutura**
-- Docker e Docker Compose
+- Docker e Docker Compose (3 contêineres: frontend, backend e banco de dados)
 
 ## 📁 Estrutura do repositório
 
@@ -46,8 +46,9 @@ ProjetoOstra/
 │   ├── app/
 │   ├── Dockerfile
 │   └── package.json
-├── docker-compose.yml  # Orquestração dos dois serviços
-├── .env                # Variáveis de ambiente (Cloudinary)
+├── docker-compose.yml  # Orquestração dos três serviços (frontend, backend e banco)
+├── .env                # Variáveis de ambiente (banco, JWT, Cloudinary) - não versionado
+├── .env.example        # Modelo do .env
 └── README.md
 ```
 
@@ -65,8 +66,12 @@ git clone https://github.com/ViniciusSotana/ProjetoOstra.git
 cd ProjetoOstra
 ```
 
-2. Configure as variáveis de ambiente no arquivo `.env` na raiz do projeto:
+2. Crie o arquivo `.env` na raiz a partir do modelo (`cp .env.example .env`) e preencha os valores:
 ```env
+POSTGRES_DB=ostra
+POSTGRES_USER=ostra
+POSTGRES_PASSWORD=troque_esta_senha
+JWT_SECRET=troque_por_um_segredo_longo_e_aleatorio
 CLOUDINARY_CLOUD_NAME=seu_cloud_name
 CLOUDINARY_API_KEY=sua_api_key
 CLOUDINARY_API_SECRET=seu_api_secret
@@ -80,7 +85,7 @@ docker-compose up --build
 4. Acesse:
    - **Frontend**: http://localhost:3000
    - **Backend (API)**: http://localhost:8080
-   - **Console do H2** (visualizar o banco): http://localhost:8080/h2-console
+   - **Banco de dados (PostgreSQL)**: só é acessível dentro da rede do Compose; para consultar use `docker compose exec database psql -U ostra -d ostra`
 
 ### Parar a aplicação
 
@@ -88,10 +93,35 @@ docker-compose up --build
 docker-compose down
 ```
 
-Os dados do banco H2 ficam salvos em um volume Docker, então persistem entre reinicializações. Para apagar também os dados (reset completo):
+Os dados do PostgreSQL ficam salvos no volume Docker `postgres-data`, então persistem entre reinicializações. Para apagar também os dados (reset completo):
 
 ```bash
 docker-compose down -v
+```
+
+## 🐳 Arquitetura Docker
+
+A aplicação roda em três contêineres, orquestrados pelo `docker-compose.yml`:
+
+| Serviço | Origem | Porta | Função |
+|---------|--------|-------|--------|
+| `frontend` | `frontend/Dockerfile` (Node 20, build standalone do Next.js) | 3000 | Interface web |
+| `backend` | `backend/Dockerfile` (Maven + JRE 17) | 8080 | API REST (Spring Boot) |
+| `database` | imagem oficial `postgres:16-alpine` | 5432 (somente rede interna) | Banco de dados |
+
+- **Dockerfile**: frontend e backend têm Dockerfile multi-stage (um estágio compila, outro só executa, resultando em imagens menores).
+- **Docker Compose**: define os serviços, portas, volume, variáveis de ambiente e a ordem de inicialização. O backend só sobe depois que o `healthcheck` do PostgreSQL confirmar que o banco aceita conexões.
+- **Rede**: os três serviços ficam na rede `app-network`. O backend acessa o banco pelo nome do serviço: `jdbc:postgresql://database:5432/ostra`.
+- **Volume**: o volume `postgres-data` guarda `/var/lib/postgresql/data`, então os dados sobrevivem a `docker-compose down` (só são apagados com `-v`).
+- **Variáveis de ambiente**: usuário, senha e nome do banco, segredo do JWT e chaves do Cloudinary vêm do `.env`. Nenhuma credencial fica no código: o `application.properties` lê `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME` e `SPRING_DATASOURCE_PASSWORD`.
+
+Comandos úteis para demonstrar cada conceito:
+
+```bash
+docker compose ps                                        # três contêineres em execução
+docker network ls                                        # rede criada pelo Compose
+docker volume ls                                         # volume postgres-data
+docker compose exec database psql -U ostra -d ostra -c "\dt"   # tabelas criadas pela API
 ```
 
 ## 🔌 Principais endpoints da API
