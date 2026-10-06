@@ -61,21 +61,35 @@ export default function JoiasPage() {
   const [promocaoType, setPromocaoType] = useState<"percentage" | "fixed">("percentage")
   const [promocaoValue, setPromocaoValue] = useState("")
   const [currentPromocaoJoia, setCurrentPromocaoJoia] = useState<Joia | null>(null)
+  const [joiasBloqueadas, setJoiasBloqueadas] = useState<Set<string>>(new Set())
 
   const fetchData = async () => {
     setIsLoading(true)
     try {
       const headers = { "Authorization": `Bearer ${getToken()}` }
       
-      const [joiasRes, tiposRes, colecoesRes] = await Promise.all([
+      const [joiasRes, tiposRes, colecoesRes, vendasRes, maletasRes] = await Promise.all([
         fetch(`${API_URL}/jewelries`, { headers }),
         fetch(`${API_URL}/jewelry-types`, { headers }),
-        fetch(`${API_URL}/collections`, { headers })
+        fetch(`${API_URL}/collections`, { headers }),
+        fetch(`${API_URL}/sales`, { headers }),
+        fetch(`${API_URL}/jewelry-cases`, { headers })
       ])
 
       if (joiasRes.ok) setJoias(await joiasRes.json())
       if (tiposRes.ok) setTipos(await tiposRes.json())
       if (colecoesRes.ok) setColecoes(await colecoesRes.json())
+
+      const bloqueadas = new Set<string>()
+      if (vendasRes.ok) {
+        const vendas = await vendasRes.json()
+        vendas.forEach((v: any) => v.items?.forEach((i: any) => bloqueadas.add(i.jewelryId)))
+      }
+      if (maletasRes.ok) {
+        const maletas = await maletasRes.json()
+        maletas.forEach((m: any) => m.items?.forEach((i: any) => bloqueadas.add(i.jewelryId)))
+      }
+      setJoiasBloqueadas(bloqueadas)
         
     } catch (error) {
       console.error("Erro ao buscar dados:", error)
@@ -389,7 +403,14 @@ export default function JoiasPage() {
                                 <Button variant="ghost" size="sm" onClick={() => handleOpenDialog(joia)} className="h-8 w-8 p-0">
                                   <Pencil className="w-4 h-4" />
                                 </Button>
-                                <Button variant="ghost" size="sm" onClick={() => handleDelete(joia.id)} className="h-8 w-8 p-0 text-destructive hover:text-destructive">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleDelete(joia.id)}
+                                  disabled={joiasBloqueadas.has(joia.id)}
+                                  title={joiasBloqueadas.has(joia.id) ? "Joia com vendas ou em maleta não pode ser excluída" : "Excluir"}
+                                  className="h-8 w-8 p-0 text-destructive hover:text-destructive disabled:opacity-40"
+                                >
                                   <Trash2 className="w-4 h-4" />
                                 </Button>
                               </div>

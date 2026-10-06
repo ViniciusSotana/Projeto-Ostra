@@ -15,7 +15,7 @@ import { Plus, ArrowLeft, Trash2, ShoppingCart, Loader2, Calendar, Search, X, Do
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { getToken } from "@/lib/auth"
-import * as XLSX from "xlsx" // <-- Importação da biblioteca Excel
+import * as XLSX from "xlsx"
 import { API_URL } from "@/lib/api"
 
 interface SaleItemResponse {
@@ -40,7 +40,7 @@ interface Venda {
 }
 
 interface Cliente { id: string, name: string }
-interface Vendedora { id: string, name: string }
+interface Vendedora { id: string, name: string, isActive: boolean }
 interface Joia { id: string, sku: string, name: string, sellingPrice: number, stockQuantity: number }
 
 interface MaletaItem { jewelryId: string, quantity: number }
@@ -75,7 +75,6 @@ export default function VendasPage() {
   const [selectedJoiaId, setSelectedJoiaId] = useState<string>("")
   const [quantidadeToAdd, setQuantidadeToAdd] = useState<string>("1")
 
-  // Estados para os filtros
   const [showCanceled, setShowCanceled] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [searchDate, setSearchDate] = useState("")
@@ -260,7 +259,6 @@ export default function VendasPage() {
     return date.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
   }
 
-  // Filtragem
   const filteredVendas = vendas.filter(venda => {
     if (!showCanceled && venda.status === "CANCELADA") {
       return false
@@ -505,7 +503,9 @@ export default function VendasPage() {
                     <SelectTrigger><SelectValue placeholder="Selecione a vendedora" /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="none">Nenhuma (Venda Direta da Loja)</SelectItem>
-                      {vendedoras.map((v) => (<SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>))}
+                      {vendedoras
+                        .filter((v) => v.isActive)
+                        .map((v) => (<SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>))}
                     </SelectContent>
                   </Select>
                 </div>

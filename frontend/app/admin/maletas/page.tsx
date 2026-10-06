@@ -32,7 +32,7 @@ interface Maleta {
   items: JoiaNaMaleta[]
 }
 
-interface Vendedora { id: string, name: string }
+interface Vendedora { id: string, name: string, isActive: boolean }
 interface Joia { id: string, sku: string, name: string, stockQuantity: number }
 
 export default function MaletasPage() {
@@ -405,14 +405,16 @@ export default function MaletasPage() {
                   <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="none">Nenhuma (Livre)</SelectItem>
-                    {vendedoras.map((v) => {
-                      const isOcupada = vendedorasOcupadas.includes(v.id) && v.id !== maletaToAtribuir?.sellerId
-                      return (
-                        <SelectItem key={v.id} value={v.id} disabled={isOcupada}>
-                          {v.name} {isOcupada ? " (Já possui maleta)" : ""}
-                        </SelectItem>
-                      )
-                    })}
+                    {vendedoras
+                      .filter((v) => v.isActive || v.id === maletaToAtribuir?.sellerId)
+                      .map((v) => {
+                        const isOcupada = vendedorasOcupadas.includes(v.id) && v.id !== maletaToAtribuir?.sellerId
+                        return (
+                          <SelectItem key={v.id} value={v.id} disabled={isOcupada}>
+                            {v.name} {isOcupada ? " (Já possui maleta)" : ""}
+                          </SelectItem>
+                        )
+                      })}
                   </SelectContent>
                 </Select>
               </div>

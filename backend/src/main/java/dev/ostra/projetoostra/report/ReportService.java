@@ -151,7 +151,7 @@ public class ReportService {
     }
 
     public byte[] generateMonthlySalesPdf() {
-        List<Sale> allSales = saleRepository.findAll();
+        List<Sale> allSales = saleRepository.findByStatusNot("CANCELADA");
 
         Map<YearMonth, List<Sale>> salesByMonth = allSales.stream()
                 .collect(Collectors.groupingBy(sale -> YearMonth.from(sale.getSaleDate())));
@@ -179,7 +179,7 @@ public class ReportService {
     }
 
     public byte[] generateTopJewelriesPdf() {
-        List<Sale> allSales = saleRepository.findAll();
+        List<Sale> allSales = saleRepository.findByStatusNot("CANCELADA");
 
         Map<Jewelry, Integer> jewelrySalesCount = allSales.stream()
                 .flatMap(sale -> sale.getItems().stream())
