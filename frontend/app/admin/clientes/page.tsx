@@ -152,7 +152,7 @@ export default function ClientesPage() {
             
             <div className="flex flex-row items-center justify-between">
               <div>
-                <h1 className="text-3xl font-serif font-bold">Gerenciar Clientes</h1>
+                <h1 className="text-3xl font-semibold">Gerenciar Clientes</h1>
                 <p className="text-muted-foreground mt-1">Cadastre e acompanhe sua carteira de clientes</p>
               </div>
               <Button className="gap-2" onClick={() => handleOpenDialog()}>

@@ -316,7 +316,7 @@ export default function JoiasPage() {
             </Link>
             <div className="flex flex-row items-center justify-between">
               <div>
-                <h1 className="text-3xl font-serif font-bold">Catálogo de Joias</h1>
+                <h1 className="text-3xl font-semibold">Catálogo de Joias</h1>
                 <p className="text-muted-foreground mt-1">Gerencie todas as peças do seu estoque</p>
               </div>
               <Button className="gap-2" onClick={() => handleOpenDialog()}>

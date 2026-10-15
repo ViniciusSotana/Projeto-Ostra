@@ -180,16 +180,16 @@ export function ProductGrid({ showFilters = true }: ProductGridProps) {
             </CardContent>
             <CardFooter className="flex flex-col items-start gap-3 p-6">
               <div className="w-full">
-                <p className="text-xs text-muted-foreground mb-1">{product.collectionName || 'Coleção Standard'}</p>
+                <p className="text-xs text-muted-foreground mb-1">{product.collectionName || ''}</p>
                 <h3 className="font-medium text-lg truncate" title={product.name}>{product.name}</h3>
                 <div className="flex items-center gap-2 mt-1">
                   {product.discountValue > 0 ? (
                     <>
                       <p className="text-lg text-muted-foreground line-through">{formatPrice(product.originalPrice)}</p>
-                      <p className="text-2xl font-serif text-red-600">{formatPrice(product.sellingPrice)}</p>
+                      <p className="text-2xl text-red-600">{formatPrice(product.sellingPrice)}</p>
                     </>
                   ) : (
-                    <p className="text-2xl font-serif text-primary">{formatPrice(product.sellingPrice)}</p>
+                    <p className="text-2xl text-primary">{formatPrice(product.sellingPrice)}</p>
                   )}
                 </div>
               </div>
@@ -221,7 +221,7 @@ export function ProductGrid({ showFilters = true }: ProductGridProps) {
       <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="font-serif text-2xl">{selectedProduct?.name}</DialogTitle>
+            <DialogTitle className="text-2xl">{selectedProduct?.name}</DialogTitle>
           </DialogHeader>
           {selectedProduct && (
             <div className="space-y-4">

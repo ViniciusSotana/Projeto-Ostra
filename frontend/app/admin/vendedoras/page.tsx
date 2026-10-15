@@ -228,7 +228,7 @@ export default function VendedorasPage() {
             
             <div className="flex flex-row items-center justify-between">
               <div>
-                <h1 className="text-3xl font-serif font-bold">Gerenciar Vendedoras</h1>
+                <h1 className="text-3xl font-semibold">Gerenciar Vendedoras</h1>
                 <p className="text-muted-foreground mt-1">Cadastre e gerencie a sua equipe</p>
               </div>
               <Button className="gap-2" onClick={() => handleOpenDialog()}>
@@ -250,7 +250,6 @@ export default function VendedorasPage() {
                 />
               </div>
               
-              {/* NOVO: Checkbox de Filtro de Ativas */}
               <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"

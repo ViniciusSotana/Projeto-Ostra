@@ -15,7 +15,6 @@ import {
 } from "lucide-react"
 import { API_URL } from "@/lib/api"
 
-// Interface dos dados dinâmicos do Back-end
 interface DashboardData {
   totalJewelries: number
   totalStockValue: number
@@ -31,11 +30,9 @@ export default function AdminPage() {
   const router = useRouter()
   const userEmail = getUserEmail()
 
-  // Estados do Dashboard
   const [data, setData] = useState<DashboardData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Busca os dados assim que a tela abre
   useEffect(() => {
     const fetchDashboardData = async () => {
       setIsLoading(true)
@@ -125,8 +122,7 @@ export default function AdminPage() {
         <main className="flex-1 container mx-auto px-4 py-8">
           <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-serif font-bold mb-2">Painel Administrativo</h1>
-              <p className="text-muted-foreground">Bem-vindo, {userEmail}</p>
+              <p className="text-3xl font-semibold mb-2">Bem-vindo, Administrador</p>
             </div>
             <div className="flex gap-2">
               <Button onClick={handleLogout} variant="outline" className="gap-2 bg-transparent">
@@ -136,7 +132,6 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* INÍCIO DOS CARDS DINÂMICOS */}
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-12 mb-8 text-muted-foreground border rounded-lg bg-background/50">
               <Loader2 className="w-8 h-8 animate-spin mb-4 text-primary" />
@@ -144,7 +139,6 @@ export default function AdminPage() {
             </div>
           ) : data ? (
             <div className="space-y-6 mb-8">
-              {/* LINHA 1: Financeiro e Clientes */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <Card className="bg-primary/5 border-primary/20">
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -191,7 +185,6 @@ export default function AdminPage() {
                 </Card>
               </div>
 
-              {/* LINHA 2: Operacional */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -233,7 +226,7 @@ export default function AdminPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">{data.totalCollections}</div>
-                    <p className="text-xs text-muted-foreground mt-1">Temporadas lançadas</p>
+                    <p className="text-xs text-muted-foreground mt-1">Coleções lançadas</p>
                   </CardContent>
                 </Card>
               </div>
@@ -243,7 +236,6 @@ export default function AdminPage() {
               Não foi possível carregar os dados do painel. Verifique a conexão com o servidor.
             </div>
           )}
-          {/* FIM DOS CARDS DINÂMICOS */}
 
           <h2 className="text-xl font-semibold mb-4">Módulos de Gestão</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -331,7 +323,7 @@ export default function AdminPage() {
                 <TrendingUp className="w-4 h-4 text-primary" />
                 <span className="font-medium">Ranking de Vendedoras</span>
               </div>
-              <span className="text-xs text-muted-foreground whitespace-normal text-left">Performance de vendas por vendedora</span>
+              <span className="text-xs text-muted-foreground whitespace-normal text-left">Performance de vendas por vendedora nesse mês</span>
             </Button>
 
             <Button 

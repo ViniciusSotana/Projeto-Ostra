@@ -15,10 +15,10 @@ export default function HomePage() {
           
           <div className="relative z-10 container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-4xl md:text-7xl font-serif font-bold tracking-tight text-balance mb-6 text-white">
+              <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-balance mb-6 text-white">
                 Elegância em cada detalhe
               </h1>
-              <p className="text-lg md:text-2xl font-serif font-bold text-pretty mb-8 text-white/90">
+              <p className="text-lg md:text-xl font-semibold text-pretty mb-8 text-white/90">
                 Descubra nossa coleção exclusiva de semijoias. Peças únicas que realçam sua beleza natural.
               </p>
             </div>
@@ -28,7 +28,7 @@ export default function HomePage() {
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-4">Nossa Coleção</h2>
+              <h2 className="text-3xl md:text-4xl font-semibold text-center mb-4">Nossa Coleção</h2>
               <p className="text-center text-muted-foreground max-w-2xl mx-auto">
                 Peças cuidadosamente selecionadas para você
               </p>
@@ -40,7 +40,7 @@ export default function HomePage() {
         <section id="sobre" className="py-16 md:py-24 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Sobre Nós</h2>
+              <h2 className="text-3xl md:text-4xl font-semibold mb-6">Sobre Nós</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Com anos de experiência no mercado de joias, oferecemos peças de alta qualidade que combinam
                 sofisticação e preço acessível. Nossa missão é fazer você se sentir especial em cada ocasião.
@@ -52,7 +52,7 @@ export default function HomePage() {
         <section id="contato" className="py-16 md:py-24">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Entre em Contato</h2>
+              <h2 className="text-3xl md:text-4xl font-semibold mb-6">Entre em Contato</h2>
               <p className="text-lg text-muted-foreground mb-8">Tire suas dúvidas ou agende uma visita à nossa loja</p>
               <div className="flex justify-center">
                 <a
@@ -68,14 +68,6 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-
-      <footer className="border-t border-border bg-card py-8">
-        <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-muted-foreground">
-            © 2025 Projeto Ostra. Todos os direitos reservados.
-          </p>
-        </div>
-      </footer>
     </div>
   )
 }

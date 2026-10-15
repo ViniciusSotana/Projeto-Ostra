@@ -97,11 +97,6 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            <div className="mt-6 p-4 bg-muted rounded-md">
-              <p className="text-xs text-muted-foreground mb-2">Credenciais padrão do sistema:</p>
-              <p className="text-xs font-mono">Email: admin@admin.com</p>
-              <p className="text-xs font-mono">Senha: admin</p>
-            </div>
           </CardContent>
         </Card>
       </div>

@@ -252,17 +252,17 @@ export default function ColecoesPage() {
 
       <main className="flex-1">
         <section 
-          className="relative py-12 md:py-16 bg-cover bg-center bg-no-repeat"
+          className="relative py-20 md:py-32 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('https://png.pngtree.com/thumb_back/fh260/background/20250417/pngtree-a-closeup-of-various-seashells-and-pearls-scattered-on-the-sandy-image_17206186.jpg')" }} 
         >
           <div className="absolute inset-0 bg-black/60"></div>
 
           <div className="relative z-10 container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-5xl md:text-5xl font-serif font-bold mb-4 text-white">
+              <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-balance mb-6 text-white">
                 Nossas Coleções
               </h1>
-              <p className="text-2xl font-serif font-bold max-w-2xl mx-auto text-white/90">
+              <p className="text-lg md:text-xl font-semibold text-pretty mb-8 text-white/90">
                 Explore nossas coleções exclusivas de semijoias
               </p>
             </div>
@@ -315,14 +315,6 @@ export default function ColecoesPage() {
           </div>
         </section>
       </main>
-
-      <footer className="border-t border-border bg-card py-8">
-        <div className="container mx-auto px-4">
-          <p className="text-center text-sm text-muted-foreground">
-            © 2026 Projeto Ostra. Todos os direitos reservados.
-          </p>
-        </div>
-      </footer>
     </div>
   )
 }

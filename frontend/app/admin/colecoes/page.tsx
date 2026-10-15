@@ -165,7 +165,7 @@ export default function ColecoesPage() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-2xl font-serif">Gerenciar Coleções</CardTitle>
+              <CardTitle className="text-2xl font-semibold">Gerenciar Coleções</CardTitle>
               <Button className="gap-2" onClick={() => handleOpenDialog()}>
                 <Plus className="w-4 h-4" />
                 Nova Coleção

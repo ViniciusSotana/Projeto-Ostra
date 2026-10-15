@@ -292,7 +292,7 @@ export default function MaletasPage() {
             </Link>
             <div className="flex flex-row items-center justify-between">
               <div>
-                <h1 className="text-3xl font-serif font-bold">Gerenciar Maletas</h1>
+                <h1 className="text-3xl font-semibold">Gerenciar Maletas</h1>
                 <p className="text-muted-foreground mt-1">Controle de mostruários e atribuições</p>
               </div>
               <Button className="gap-2" onClick={() => handleOpenDialog()}>
