@@ -43,7 +43,7 @@ services:
         NEXT_PUBLIC_API_URL: http://localhost:8080
     restart: unless-stopped
     ports:
-      - "384560:3000"
+      - "384567:3000"
     depends_on:
       - backend
     networks:
