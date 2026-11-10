@@ -52,7 +52,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://projeto-ostra-frontend.onrender.com", "http://vinicius-back.187.33.201.107.sslip.io"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://projeto-ostra-frontend.onrender.com", "http://vinicius.187.33.201.107.sslip.io"));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
