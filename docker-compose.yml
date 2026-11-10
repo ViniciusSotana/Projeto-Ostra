@@ -40,7 +40,7 @@ services:
     build:
       context: ./frontend
       args:
-        NEXT_PUBLIC_API_URL: http://localhost:61678
+        NEXT_PUBLIC_API_URL: http://vinicius-back.187.33.201.107.sslip.io
     restart: unless-stopped
     ports:
       - "61677:3000"
